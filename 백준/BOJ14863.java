@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class BOJ14863 {
@@ -24,22 +23,15 @@ public class BOJ14863 {
         }
 
         int[][] dp = new int[N + 1][K + 1];
-        boolean[][] level = new boolean[N + 1][K + 1];
-        Arrays.fill(level[0], true);
 
         for (int i = 1; i <= N; i++) {
-            // 도보
             for (int j = 0; j <= K; j++) {
-                if (level[i - 1][j] && j + walk[i][0] <= K) {
-                    dp[i][j + walk[i][0]] = dp[i - 1][j] + walk[i][1];
-                    level[i][j + walk[i][0]] = true;
+                if (i != 1 && dp[i - 1][j] == 0) continue;
+                if (j + walk[i][0] <= K) {
+                    dp[i][j + walk[i][0]] = Math.max(dp[i][j + walk[i][0]], dp[i - 1][j] + walk[i][1]);
                 }
-            }
-            // 자전거
-            for (int j = 0; j <= K; j++) {
-                if (level[i - 1][j] && j + bike[i][0] <= K) {
+                if (j + bike[i][0] <= K) {
                     dp[i][j + bike[i][0]] = Math.max(dp[i][j + bike[i][0]], dp[i - 1][j] + bike[i][1]);
-                    level[i][j + bike[i][0]] = true;
                 }
             }
         }
