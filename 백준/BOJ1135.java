@@ -24,7 +24,6 @@ public class BOJ1135 {
         }
         System.out.println(dfs(0));
     }
-
     static int dfs(int x) {
         for (int next : adj.get(x)) {
             dp[next] = 1 + dfs(next);
